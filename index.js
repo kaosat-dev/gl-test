@@ -7,11 +7,8 @@ var glslify  = require('glslify')
 var bunny    = require('bunny')
 var createOrbitCamera = require("orbit-camera")
 
-var height = 640
-var width = 480
-var camera = createOrbitCamera([0, 10, 20],
-                               [0, 3, 0],
-                               [0, 1, 0])
+var height = 480
+var width = 640 
 
 
 function makeMesaContext(width=128,height=128,bpp=32){
@@ -47,6 +44,9 @@ geometry.attr('aNormal', normals.vertexNormals(
 geometry.faces(bunny.cells)
 
 console.log("geometry setup")
+
+var camera = createOrbitCamera( [0, 10, 30] , [0, 0, 0] , [0, 1, 0])
+
 
 var projection = mat4.create()
 var model      = mat4.create()
@@ -96,6 +96,10 @@ console.log("shaders setup")
 
 
 function update() {
+  //width  = gl.drawingBufferWidth
+  //height = gl.drawingBufferHeight
+
+  console.log("width",width,"height",height)
   // Updates the width/height we use to render the
   // final image.
   // Updates our camera view matrix.
@@ -150,10 +154,11 @@ function render() {
   // to the GPU as uniform variables that we can use in
   // `shaders/bunny.vert` and `shaders/bunny.frag`.
   shader.uniforms.uProjection = projection
-    console.log("shader uniforms  done")
-
   shader.uniforms.uView = view
   shader.uniforms.uModel = model
+
+  console.log("shader uniforms  done")
+
 
 
   // Finally: draws the bunny to the screen! The rest is
@@ -162,7 +167,7 @@ function render() {
 
 }
 
-function output(buffer){
+function output(buffer, fileName){
 
   //var lwip = require('lwip');
 
@@ -204,7 +209,7 @@ function output(buffer){
   }
 
 
-  var fileName = 'output.png'
+  
 
   function genOutput2(inBuf, width, height){
     var PNG = require('pngjs2').PNG
@@ -245,11 +250,29 @@ function output(buffer){
   buffer
 
   //cleanup, output
-  gl.DestroyContext(context)
+  //gl.DestroyContext(context)
 }
 
-render()
-output(buffer)
+//render()
+//output(buffer)
 
 
 
+function sequenceShots()
+{
+  var fileName = 'output'
+
+  for(var i=0;i<10;i++){
+    render()
+
+    /*gl.clearColor(0.0, 1.0, 1.0, 0.5)
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.finish()*/
+
+    output(buffer,fileName+i+".png")
+    camera.rotate([i,i],[i*20,i*20])
+    
+  }
+}
+
+sequenceShots()

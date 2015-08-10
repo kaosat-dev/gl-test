@@ -9,9 +9,8 @@ var glslify = require('glslify');
 var bunny = require('bunny');
 var createOrbitCamera = require("orbit-camera");
 
-var height = 640;
-var width = 480;
-var camera = createOrbitCamera([0, 10, 20], [0, 3, 0], [0, 1, 0]);
+var height = 480;
+var width = 640;
 
 function makeMesaContext() {
   var width = arguments.length <= 0 || arguments[0] === undefined ? 128 : arguments[0];
@@ -55,14 +54,16 @@ geometry.faces(bunny.cells);
 
 console.log("geometry setup");
 
+var camera = createOrbitCamera([0, 10, 30], [0, 0, 0], [0, 1, 0]);
+
 var projection = mat4.create();
 var model = mat4.create();
 var view = mat4.create();
 
 console.log("matrices setup");
 
-var bunnyVert = fs.readFileSync('./shaders/bunny.vert', 'utf8');
-var bunnyFrag = fs.readFileSync('./shaders/bunny.frag', 'utf8');
+var bunnyVert = fs.readFileSync('./shaders/bunny2.vert', 'utf8');
+var bunnyFrag = fs.readFileSync('./shaders/bunny2.frag', 'utf8');
 
 /*let bunnyVert = glslify('./shaders/bunny.vert')
 let bunnyFrag = glslify('./shaders/bunny.frag')*/
@@ -98,11 +99,12 @@ var shader = makeShader(gl, bunnyVert, bunnyFrag);
 console.log("shaders setup");
 
 function update() {
-  // Updates the width/height we use to render the
-  // final image.
   //width  = gl.drawingBufferWidth
   //height = gl.drawingBufferHeight
 
+  console.log("width", width, "height", height);
+  // Updates the width/height we use to render the
+  // final image.
   // Updates our camera view matrix.
   camera.view(view);
 
@@ -150,17 +152,17 @@ function render() {
   // to the GPU as uniform variables that we can use in
   // `shaders/bunny.vert` and `shaders/bunny.frag`.
   shader.uniforms.uProjection = projection;
-  console.log("shader uniforms  done");
-
   shader.uniforms.uView = view;
   shader.uniforms.uModel = model;
+
+  console.log("shader uniforms  done");
 
   // Finally: draws the bunny to the screen! The rest is
   // handled in our shaders.
   geometry.draw(gl.TRIANGLES);
 }
 
-function output(buffer) {
+function output(buffer, fileName) {
 
   //var lwip = require('lwip');
 
@@ -200,8 +202,6 @@ function output(buffer) {
     return buffer;
   }
 
-  var fileName = 'output.png';
-
   function genOutput2(inBuf, width, height) {
     var PNG = require('pngjs2').PNG;
 
@@ -238,9 +238,26 @@ function output(buffer) {
   buffer;
 
   //cleanup, output
-  gl.DestroyContext(context);
+  //gl.DestroyContext(context)
 }
 
-render();
-output(buffer);
+//render()
+//output(buffer)
+
+function sequenceShots() {
+  var fileName = 'output';
+
+  for (var i = 0; i < 10; i++) {
+    render();
+
+    /*gl.clearColor(0.0, 1.0, 1.0, 0.5)
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.finish()*/
+
+    output(buffer, fileName + i + ".png");
+    camera.rotate([i, i], [i * 20, i * 20]);
+  }
+}
+
+sequenceShots();
 
