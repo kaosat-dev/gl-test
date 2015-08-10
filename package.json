@@ -1,0 +1,20 @@
+{
+  "name": "gl-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel index.js > dist/index.js;node dist/index.js"
+  },
+  "author": "Mark 'kaosat-dev' Moissette",
+  "license": "MIT",
+  "dependencies": {
+    "bunny": "^1.0.1",
+    "gl-geometry": "^1.1.1",
+    "gl-mat4": "^1.1.4",
+    "gl-shader": "^4.0.5",
+    "glslify": "^2.2.1",
+    "normals": "^1.0.1",
+    "orbit-camera": "^1.0.0"
+  }
+}
