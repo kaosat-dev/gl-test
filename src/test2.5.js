@@ -1,12 +1,17 @@
 var mat4     = require('gl-mat4')
 var fs    = require('fs')
+var createOrbitCamera = require("orbit-camera")
 
 import {makeShader} from './shaderUtils'
 
 export default function test(gl, width, height){
 
   var projection = mat4.create()
-  var modelView  = mat4.create()
+  var model      = mat4.create()
+  var view       = mat4.create()
+
+  var camera = createOrbitCamera( [0, 0, 1] , [0, 0, 0] , [0, 1, 0])
+  //this combo works [0, 0, 1] , [0, 0, 0] , [0, 1, 0]
 
   var triangleVertexPositionBuffer
   var program
@@ -14,7 +19,7 @@ export default function test(gl, width, height){
 
   function makeProgram(){
     let basicFrag = fs.readFileSync('./shaders/basic.frag', 'utf8') 
-    let basicVert2 = fs.readFileSync('./shaders/basic2.vert', 'utf8')
+    let basicVert2 = fs.readFileSync('./shaders/test2.5.vert', 'utf8')
 
     program = makeShader(gl, basicVert2, basicFrag)
     gl.useProgram(program)
@@ -22,7 +27,9 @@ export default function test(gl, width, height){
     gl.enableVertexAttribArray(program.vertexPositionAttribute)
 
     program.uProjection = gl.getUniformLocation(program, "uProjection")
-    program.uModelView = gl.getUniformLocation(program, "uModelView")
+    program.uModel= gl.getUniformLocation(program, "uModel")
+    program.uView = gl.getUniformLocation(program, "uView")
+
     return program
   }
 
@@ -54,10 +61,11 @@ export default function test(gl, width, height){
   }
 
 
-  function setMatrixUniforms(program, projection, modelView) {
+  function setMatrixUniforms(program, projection, model, view) {
     //console.log("setMatrixUniforms",program.uProjection,projection)
     gl.uniformMatrix4fv(program.uProjection, false, projection)
-    gl.uniformMatrix4fv(program.uModelView, false, modelView)
+    gl.uniformMatrix4fv(program.uModel, false, model)
+    gl.uniformMatrix4fv(program.uView, false, view)
   }
 
   program = makeProgram()
@@ -65,9 +73,12 @@ export default function test(gl, width, height){
 
 
   function update(timeIdx){
+    camera.view(view)
+
     mat4.perspective(45, width / height, 0.1, 100.0, projection)
-    //mat4.identity(view)
-    mat4.translate(modelView, modelView, [0.01*timeIdx, 0.0, 0.0])
+    
+    camera.rotate([(timeIdx-1)*10,(timeIdx-1)*10], [timeIdx*100,timeIdx*100])//[timeIdx*0.01,timeIdx*0.01])
+    camera.pan([timeIdx*0.1,0,0])
   }
 
   function render() {
@@ -79,11 +90,11 @@ export default function test(gl, width, height){
 
     // Enables depth testing, which prevents triangles
     // from overlapping.
-    gl.enable(gl.DEPTH_TEST)
+    //gl.enable(gl.DEPTH_TEST)
 
     // Enables face culling, which prevents triangles
     // being visible from behind.
-    gl.enable(gl.CULL_FACE)
+    //gl.enable(gl.CULL_FACE)
 
     // Binds the geometry and sets up the shader's attribute
     // locations accordingly.
@@ -92,25 +103,12 @@ export default function test(gl, width, height){
     // Updates our model/view/projection matrices, sending them
     // to the GPU as uniform variables that we can use in
     // `shaders/bunny.vert` and `shaders/bunny.frag`.
-    
-    //shader.uniforms.uProjection = projection
-    //shader.uniforms.uView = view
-    //shader.uniforms.uModel = model
-    setMatrixUniforms(program, projection, modelView)
+    setMatrixUniforms(program, projection, model, view)
     console.log("shader uniforms  done")
 
     // draw
-    //gl.drawArrays(gl.TRIANGLES, 0, 6)
-
-    // Finally: draws the bunny to the screen! The rest is
-    // handled in our shaders.
-    //geometry.draw(gl.TRIANGLES)
-
-    //draw stuff
-    
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer)
     gl.vertexAttribPointer(program.vertexPositionAttribute, triangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0)
-    setMatrixUniforms(program, projection, modelView)
     gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer.numItems)
 
   }

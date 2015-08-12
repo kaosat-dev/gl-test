@@ -1,10 +1,14 @@
 'use strict';
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 var _makeContext = require('./makeContext');
 
 var _outputToFile = require('./outputToFile');
 
-var _test22 = require('./test2');
+var _test25 = require('./test2.5');
+
+var _test252 = _interopRequireDefault(_test25);
 
 var fs = require('fs');
 //var makeShader = require('gl-shader')
@@ -26,10 +30,10 @@ function cleanup(context) {
   gl.DestroyContext(context);
 }
 
-var _test2 = (0, _test22.test2)(gl, width, height);
+var _test = (0, _test252['default'])(gl, width, height);
 
-var render = _test2.render;
-var update = _test2.update;
+var render = _test.render;
+var update = _test.update;
 
 function sequenceShots() {
   var iterations = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
@@ -37,9 +41,9 @@ function sequenceShots() {
   var fileName = 'output';
 
   for (var i = 0; i < iterations; i++) {
+    update(i);
     render();
     (0, _outputToFile.outputToFile)(buffer, width, height, fileName + i + ".png");
-    update(i);
   }
 }
 

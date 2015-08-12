@@ -17,18 +17,19 @@ function cleanup(context){
 }
 
 
-import {test2} from './test2'
+import test from './test2.5'
 
-let {render,update} = test2(gl, width, height)
+let {render,update} = test(gl, width, height)
 
 function sequenceShots(iterations=1)
 {
   var fileName = 'output'
 
   for(var i=0;i<iterations;i++){
+    update(i)
     render()
     outputToFile(buffer, width, height, fileName+i+".png")
-    update(i)
+    
   }
 }
 
