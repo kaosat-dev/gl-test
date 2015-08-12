@@ -1,10 +1,10 @@
+#define GLSLIFY 1
 // Our vertex shader is run once for each of these
 // vectors, to determine the final position of the vertex
 // on the screen and pass data off to the fragment shader.
 
-#ifdef GL_ES
 precision mediump float;
-#endif
+
 // Our attributes, i.e. the arrays of vectors in the bunny mesh.
 attribute vec3 aPosition;
 attribute vec3 aNormal;

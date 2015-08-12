@@ -1,6 +1,6 @@
-#ifdef GL_ES
+#define GLSLIFY 1
 precision mediump float;
-#endif
+
 // Sets the color of the current fragment (pixel)
 // to display the normal at the current position.
 // Using `abs()` to prevent negative values, which
