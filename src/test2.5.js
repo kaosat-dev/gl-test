@@ -90,7 +90,7 @@ export default function test(gl, width, height){
 
     // Enables depth testing, which prevents triangles
     // from overlapping.
-    //gl.enable(gl.DEPTH_TEST)
+    gl.enable(gl.DEPTH_TEST)
 
     // Enables face culling, which prevents triangles
     // being visible from behind.

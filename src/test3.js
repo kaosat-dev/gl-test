@@ -4,9 +4,9 @@ var createOrbitCamera = require("orbit-camera")
 
 
 
-export function test3(gl, width, height){
+export default function test(gl, width, height){
 
-  var camera = createOrbitCamera( [0, 10, 30] , [0, 0, 0] , [0, 1, 0])
+  var camera = createOrbitCamera( [0, 0, 1] , [0, 0, 0] , [0, 1, 0] )// [0, 10, 30] , [0, 0, 0] , [0, 1, 0])
 
   var projection = mat4.create()
   var model      = mat4.create()
