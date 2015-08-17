@@ -1,6 +1,6 @@
 export function makeMesaContext(width=128,height=128,bpp=32){
   let osmesa = require('osmesa-webgl')
-  let context = osmesa.CreateContext()
+  let context = osmesa.CreateContext(width, height)
   let gl = osmesa
 
   let buffer = new Uint8Array(width * height * bpp / 8) ///RGBA
