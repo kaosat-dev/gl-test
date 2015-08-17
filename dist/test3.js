@@ -3,14 +3,14 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports.test3 = test3;
+exports['default'] = test;
 var Geometry = require('gl-geometry');
 var bunny = require('bunny');
 var createOrbitCamera = require("orbit-camera");
 
-function test3(gl, width, height) {
+function test(gl, width, height) {
 
-  var camera = createOrbitCamera([0, 10, 30], [0, 0, 0], [0, 1, 0]);
+  var camera = createOrbitCamera([0, 0, 1], [0, 0, 0], [0, 1, 0]); // [0, 10, 30] , [0, 0, 0] , [0, 1, 0])
 
   var projection = mat4.create();
   var model = mat4.create();
@@ -92,3 +92,5 @@ function test3(gl, width, height) {
     //geometry.draw(gl.TRIANGLES)
   }
 }
+
+module.exports = exports['default'];

@@ -4,20 +4,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var _makeContext = require('./makeContext');
 
+var _checkExtensions = require('./checkExtensions');
+
 var _outputToFile = require('./outputToFile');
 
-var _test25 = require('./test2.5');
+//checkExtensions(gl)
 
-var _test252 = _interopRequireDefault(_test25);
+var _test1 = require('./test1');
+
+var _test12 = _interopRequireDefault(_test1);
 
 var fs = require('fs');
 //var makeShader = require('gl-shader')
 var mat4 = require('gl-mat4');
-var normals = require('normals');
 var glslify = require('glslify');
 
-var height = 480;
-var width = 640;
+var height = 8; //480
+var width = 8; //640
 
 var _makeMesaContext = (0, _makeContext.makeMesaContext)(width, height);
 
@@ -29,8 +32,7 @@ function cleanup(context) {
   //cleanup, output
   gl.DestroyContext(context);
 }
-
-var _test = (0, _test252['default'])(gl, width, height);
+var _test = (0, _test12['default'])(gl, width, height);
 
 var render = _test.render;
 var update = _test.update;
@@ -47,4 +49,4 @@ function sequenceShots() {
   }
 }
 
-sequenceShots(5);
+sequenceShots(3);

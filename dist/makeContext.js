@@ -12,7 +12,7 @@ function makeMesaContext() {
   var bpp = arguments.length <= 2 || arguments[2] === undefined ? 32 : arguments[2];
 
   var osmesa = require('osmesa-webgl');
-  var context = osmesa.CreateContext();
+  var context = osmesa.CreateContext(width, height);
   var gl = osmesa;
 
   var buffer = new Uint8Array(width * height * bpp / 8); ///RGBA

@@ -89,7 +89,7 @@ function test(gl, width, height) {
 
     // Enables depth testing, which prevents triangles
     // from overlapping.
-    //gl.enable(gl.DEPTH_TEST)
+    gl.enable(gl.DEPTH_TEST);
 
     // Enables face culling, which prevents triangles
     // being visible from behind.
@@ -102,17 +102,12 @@ function test(gl, width, height) {
     // Updates our model/view/projection matrices, sending them
     // to the GPU as uniform variables that we can use in
     // `shaders/bunny.vert` and `shaders/bunny.frag`.
-
-    //shader.uniforms.uProjection = projection
-    //shader.uniforms.uView = view
-    //shader.uniforms.uModel = model
     setMatrixUniforms(program, projection, model, view);
     console.log("shader uniforms  done");
 
     // draw
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
     gl.vertexAttribPointer(program.vertexPositionAttribute, triangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-    //setMatrixUniforms(program, projection, model, view)
     gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer.numItems);
   }
 

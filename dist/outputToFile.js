@@ -62,4 +62,15 @@ function outputToFile(buffer, width, height, fileName) {
   }
 
   genOutput2(buffer, width, height);
+
+  var channels = buffer.length / 4;
+  for (var i = 0; i < channels; ++i) {
+    var r = buffer[i * 4];
+    var g = buffer[i * 4 + 1];
+    var b = buffer[i * 4 + 2];
+    var a = buffer[i * 4 + 3];
+
+    console.log(r, g, b, a);
+    console.log("//");
+  }
 }
