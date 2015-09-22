@@ -1,21 +1,38 @@
 {
   "name": "gl-test",
   "version": "1.0.0",
-  "description": "",
+  "description": "experiments with stack.gl & various 'lower level' webgl modules ",
   "main": "index.js",
   "scripts": {
-    "start": "babel src --out-dir dist;node dist/index.js"
+    "start": "babel src --out-dir dist;node dist/index.js",
+    "client": "browserify src/client/index.js -o dist/clientBundle.js",
+    "browser": "beefy src/client/index.js --open"
+  },
+  "browserify": {
+    "transform": [
+      "glslify"
+    ]
   },
   "author": "Mark 'kaosat-dev' Moissette",
   "license": "MIT",
   "dependencies": {
     "bunny": "^1.0.1",
+    "camera-picking-ray": "^1.0.1",
+    "canvas-fit": "^1.4.0",
+    "canvas-orbit-camera": "^1.0.2",
     "gl-buffer": "^2.1.2",
+    "gl-context": "^0.1.1",
     "gl-geometry": "^1.1.1",
     "gl-mat4": "^1.1.4",
     "gl-shader": "^4.0.5",
     "glslify": "^2.2.1",
     "normals": "^1.0.1",
-    "orbit-camera": "^1.0.0"
+    "orbit-camera": "^1.0.0",
+    "parse-stl": "^1.0.2"
+  },
+  "devDependencies": {
+    "beefy": "^2.1.5",
+    "browserify": "^11.0.1",
+    "glslify": "^2.2.1"
   }
 }

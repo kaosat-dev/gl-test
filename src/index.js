@@ -3,7 +3,7 @@ var fs    = require('fs')
 var mat4     = require('gl-mat4')
 var glslify  = require('glslify')
 
-import {makeMesaContext} from './makeContext'
+import {makeMesaContext} from './common/makeContext'
 import {checkExtensions} from './checkExtensions'
 import {outputToFile} from './outputToFile'
 
