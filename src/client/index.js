@@ -6,6 +6,7 @@ var normals  = require('normals')
 var glslify  = require('glslify')
 var bunny    = require('bunny')
 
+var vec3     = require('gl-vec3')
 
 //var stlParser = require('./stl-parser')
 var parseSTL = require('parse-stl')
@@ -41,6 +42,7 @@ var canvas = document.body.appendChild(document.createElement('canvas'))
 // which later will generate a view matrix and
 // handle interaction for you.
 var camera = require('canvas-orbit-camera')(canvas)
+camera.pan([0, 0, 0])
 
 // A small convenience function for creating
 // a new WebGL context – the `render` function
@@ -98,16 +100,23 @@ var width
 // the browser.
 var shader = glShader(gl,
     glslify('../../shaders/bunny.vert')
-  , glslify('../../shaders/bunny.frag')
+  //, glslify('../../shaders/bunny.frag')
+  , glslify('../../shaders/shading/phong.frag') 
 )
 
-
-
-
+////////////////////////
 //test for picking
+/*var Ray = require('ray-3d')
+
+var ray = new Ray([0,0,0], [0,1,0])
+
+if (ray.intersectsSphere(center, radius)) {
+  console.log("Hit a sphere!")
+}
+
 var pick = require('camera-picking-ray')
 var intersect = require('ray-sphere-intersection')
- 
+
 //your camera matrices 
 var projView = mat4.multiply([], projection, view)
 var invProjView = mat4.invert([], projView)
@@ -130,8 +139,9 @@ var hit = intersect([], ray.ro, ray.rd, center, radius)
  
 if (hit) {
   console.log("Mouse hit the sphere at:", hit)
-}
+}*/
 
+////////////////////////
 
 
 
@@ -194,6 +204,10 @@ function render() {
   shader.uniforms.uProjection = projection
   shader.uniforms.uView = view
   shader.uniforms.uModel = model
+
+  shader.eyePosition = vec3.create(20,0,0)
+  shader.lightPosition = vec3.fromValues(30, 30, 30)
+  shader.shininess = 0.5
 
   // Finally: draws the bunny to the screen! The rest is
   // handled in our shaders.

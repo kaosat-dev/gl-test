@@ -25,10 +25,14 @@
     "gl-geometry": "^1.1.1",
     "gl-mat4": "^1.1.4",
     "gl-shader": "^4.0.5",
+    "gl-vec3": "^1.0.3",
+    "glsl-specular-phong": "^1.0.0",
     "glslify": "^2.2.1",
+    "mouse-position": "^2.0.0",
     "normals": "^1.0.1",
     "orbit-camera": "^1.0.0",
-    "parse-stl": "^1.0.2"
+    "parse-stl": "^1.0.2",
+    "ray-3d": "^1.0.2"
   },
   "devDependencies": {
     "beefy": "^2.1.5",

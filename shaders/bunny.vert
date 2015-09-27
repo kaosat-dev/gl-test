@@ -11,6 +11,7 @@ attribute vec3 aNormal;
 
 // This is passed from here to be used in `bunny.frag`.
 varying vec3 vNormal;
+varying vec3 vPosition;
 
 uniform mat4 uProjection;
 uniform mat4 uModel;
@@ -18,6 +19,7 @@ uniform mat4 uView;
 
 void main() {
   vNormal = aNormal;
+  vPosition = aPosition;
 
   // - `uProjection` will apply our perspective matrix, and
   // - `uView` will apply our camera transforms.
